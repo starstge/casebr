@@ -41,11 +41,6 @@
         .case-canvas {
             filter: drop-shadow(0 0 25px rgb(0 255 157 / 0.7));
         }
-
-        /* Мобильное меню */
-        #mobile-menu {
-            display: none;
-        }
     </style>
 </head>
 <body class="gta-bg text-white min-h-screen">
@@ -95,12 +90,12 @@
                 </div>
 
                 <!-- Мобильная кнопка меню -->
-                <button onclick="toggleMobileMenu()" class="md:hidden text-4xl leading-none">
+                <button id="menu-button" onclick="toggleMobileMenu()" class="md:hidden text-4xl leading-none hover:text-[#00ff9d] transition-colors">
                     ☰
                 </button>
             </div>
 
-            <!-- Мобильное меню (появляется только при клике) -->
+            <!-- Мобильное меню -->
             <div id="mobile-menu" class="hidden md:hidden bg-black/95 border-t-4 border-[#00ff9d] py-6">
                 <div class="flex flex-col px-6 space-y-5 text-lg">
                     <button onclick="showSection('dashboard'); toggleMobileMenu()" class="text-left hover:text-[#00ff9d]">🏠 ДАШБОРД</button>
@@ -185,7 +180,7 @@
             </div>
         </div>
 
-        <!-- МОДАЛКА ОТКРЫТИЯ -->
+        <!-- МОДАЛКА -->
         <div id="opening-modal" class="hidden fixed inset-0 bg-black/95 flex items-center justify-center z-[9999] px-4">
             <div class="max-w-lg w-full bg-[#111827] rounded-3xl overflow-hidden border-8 border-[#00ff9d]">
                 <div class="p-8 text-center">
@@ -205,7 +200,6 @@
         let history = JSON.parse(localStorage.getItem('history')) || [];
         let currentCaseType = 0;
         let currentItems = [];
-        let selectedCaseForOpen = null;
 
         let previewScene, previewCamera, previewRenderer, previewMesh;
 
@@ -216,7 +210,7 @@
             { name: 'DIAMOND', color: 0x00ffcc, emissive: 0x00ffff }
         ];
 
-        // 3D Превью
+        // ==================== 3D ПРЕВЬЮ ====================
         function initPreview3D() {
             const canvas = document.getElementById('preview-canvas');
             if (!canvas) return;
@@ -257,12 +251,22 @@
             previewScene.add(previewMesh);
         }
 
-        // Управление меню
+        // ==================== МОБИЛЬНОЕ МЕНЮ ====================
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
+            const button = document.getElementById('menu-button');
+            
             menu.classList.toggle('hidden');
+            
+            // Меняем иконку на крестик при открытом меню
+            if (!menu.classList.contains('hidden')) {
+                button.textContent = '✕';
+            } else {
+                button.textContent = '☰';
+            }
         }
 
+        // ==================== ОСНОВНЫЕ ФУНКЦИИ ====================
         function login() {
             const username = document.getElementById('login-username').value.trim();
             const password = document.getElementById('login-password').value;
@@ -392,11 +396,6 @@
             }
         }
 
-        // Заглушки для остальных разделов
-        function renderOpenCases() { alert('Раздел "Открыть кейс" скоро будет доступен'); }
-        function renderHistory() { alert('Раздел "История" скоро будет доступен'); }
-
-        // Закрытие модального окна
         function closeOpeningModal() {
             document.getElementById('opening-modal').classList.add('hidden');
         }
