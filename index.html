@@ -46,15 +46,6 @@
         #mobile-menu {
             display: none;
         }
-
-        @media (max-width: 768px) {
-            #desktop-menu {
-                display: none;
-            }
-            #mobile-menu {
-                display: block;
-            }
-        }
     </style>
 </head>
 <body class="gta-bg text-white min-h-screen">
@@ -103,21 +94,21 @@
                     <button onclick="logout()" class="text-red-400 hover:text-red-500">ВЫЙТИ</button>
                 </div>
 
-                <!-- Мобильная иконка меню -->
-                <button onclick="toggleMobileMenu()" class="md:hidden text-3xl">
+                <!-- Мобильная кнопка меню -->
+                <button onclick="toggleMobileMenu()" class="md:hidden text-4xl leading-none">
                     ☰
                 </button>
             </div>
 
-            <!-- Мобильное меню -->
-            <div id="mobile-menu" class="hidden md:hidden bg-black/95 border-t border-[#00ff9d] py-4">
-                <div class="flex flex-col px-6 space-y-4 text-lg">
-                    <button onclick="showSection('dashboard');toggleMobileMenu()" class="text-left hover:text-[#00ff9d]">🏠 ДАШБОРД</button>
-                    <button onclick="showSection('create');toggleMobileMenu()" class="text-left hover:text-[#00ff9d]">✚ СОЗДАТЬ КЕЙС</button>
-                    <button onclick="showSection('open');toggleMobileMenu()" class="text-left hover:text-[#00ff9d]">🔓 ОТКРЫТЬ КЕЙС</button>
-                    <button onclick="showSection('history');toggleMobileMenu()" class="text-left hover:text-[#00ff9d]">📜 ИСТОРИЯ</button>
-                    <button onclick="showSection('users');toggleMobileMenu()" class="text-left hover:text-[#00ff9d]">👥 УПРАВЛЕНИЕ ДОСТУПОМ</button>
-                    <button onclick="logout();toggleMobileMenu()" class="text-red-400 text-left">ВЫЙТИ</button>
+            <!-- Мобильное меню (появляется только при клике) -->
+            <div id="mobile-menu" class="hidden md:hidden bg-black/95 border-t-4 border-[#00ff9d] py-6">
+                <div class="flex flex-col px-6 space-y-5 text-lg">
+                    <button onclick="showSection('dashboard'); toggleMobileMenu()" class="text-left hover:text-[#00ff9d]">🏠 ДАШБОРД</button>
+                    <button onclick="showSection('create'); toggleMobileMenu()" class="text-left hover:text-[#00ff9d]">✚ СОЗДАТЬ КЕЙС</button>
+                    <button onclick="showSection('open'); toggleMobileMenu()" class="text-left hover:text-[#00ff9d]">🔓 ОТКРЫТЬ КЕЙС</button>
+                    <button onclick="showSection('history'); toggleMobileMenu()" class="text-left hover:text-[#00ff9d]">📜 ИСТОРИЯ</button>
+                    <button onclick="showSection('users'); toggleMobileMenu()" class="text-left hover:text-[#00ff9d]">👥 ДОСТУП</button>
+                    <button onclick="logout(); toggleMobileMenu()" class="text-red-400 text-left">ВЫЙТИ</button>
                 </div>
             </div>
         </header>
@@ -125,6 +116,7 @@
         <!-- ДАШБОРД -->
         <div id="section-dashboard" class="max-w-screen-2xl mx-auto px-4 py-8">
             <h2 class="text-2xl mb-6 neon-text">ПРИВЕТ, ВЛАДЕЛЕЦ! 🔥</h2>
+            
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div class="bg-black/70 border border-[#00ff9d]/30 rounded-3xl p-8">
                     <p class="text-sm text-gray-400">КЕЙСОВ</p>
@@ -152,7 +144,7 @@
                 <h2 class="text-3xl neon-text mb-8">СОЗДАТЬ КЕЙС</h2>
 
                 <div class="mb-8">
-                    <p class="text-sm mb-3">3D ПРЕВЬЮ</p>
+                    <p class="text-sm mb-3">3D ПРЕВЬЮ КЕЙСА</p>
                     <div class="bg-black rounded-2xl p-4 border border-[#00ff9d]/30">
                         <canvas id="preview-canvas" class="w-full h-64 mx-auto block case-canvas"></canvas>
                     </div>
@@ -176,24 +168,22 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs mb-2 text-gray-400">ПРЕДМЕТЫ (% выпадения)</label>
+                        <label class="block text-xs mb-2 text-gray-400">ПРЕДМЕТЫ И % ВЫПАДЕНИЯ</label>
                         <div id="items-list" class="space-y-3"></div>
                         <div class="flex gap-3 mt-6">
                             <input id="item-name" placeholder="Название предмета" class="flex-1 bg-[#111827] border border-[#00ff9d]/50 rounded-2xl px-6 py-4">
                             <input id="item-percent" type="number" placeholder="%" class="w-24 bg-[#111827] border border-[#00ff9d]/50 rounded-2xl px-6 py-4 text-center">
-                            <button onclick="addItem()" class="bg-[#00ff9d] text-black px-8 rounded-2xl font-bold">ДОБАВИТЬ</button>
+                            <button onclick="addItem()" class="bg-[#00ff9d] text-black px-8 rounded-2xl font-bold">+ ДОБАВИТЬ</button>
                         </div>
-                        <p id="percent-sum" class="text-xs mt-2 text-right text-gray-400">Сумма: <span class="text-[#00ff9d]">0</span>%</p>
+                        <p id="percent-sum" class="text-xs mt-2 text-right text-gray-400">Сумма процентов: <span class="text-[#00ff9d]">0</span>%</p>
                     </div>
 
-                    <button onclick="saveCase()" class="w-full bg-[#00ff9d] text-black py-6 rounded-3xl text-xl font-bold">
+                    <button onclick="saveCase()" class="w-full bg-[#00ff9d] text-black py-6 rounded-3xl text-xl font-bold hover:scale-105 transition-all">
                         СОХРАНИТЬ КЕЙС
                     </button>
                 </div>
             </div>
         </div>
-
-        <!-- ОТКРЫТЬ КЕЙС, ИСТОРИЯ, ДОСТУП — оставлены без изменений для краткости, но работают -->
 
         <!-- МОДАЛКА ОТКРЫТИЯ -->
         <div id="opening-modal" class="hidden fixed inset-0 bg-black/95 flex items-center justify-center z-[9999] px-4">
@@ -201,11 +191,9 @@
                 <div class="p-8 text-center">
                     <h3 id="opening-case-name" class="text-2xl mb-6">ОТКРЫВАЕМ...</h3>
                     <canvas id="opening-canvas" class="w-full h-80 mx-auto block case-canvas"></canvas>
-                    
                     <div id="opening-result" class="hidden mt-8">
                         <div id="result-item" class="text-center"></div>
                     </div>
-                    
                     <button onclick="closeOpeningModal()" class="mt-8 w-full py-4 bg-black border border-[#00ff9d] rounded-2xl">ЗАКРЫТЬ</button>
                 </div>
             </div>
@@ -213,7 +201,6 @@
     </div>
 
     <script>
-        // ==================== ГЛОБАЛЬНЫЕ ====================
         let cases = JSON.parse(localStorage.getItem('cases')) || [];
         let history = JSON.parse(localStorage.getItem('history')) || [];
         let currentCaseType = 0;
@@ -229,7 +216,7 @@
             { name: 'DIAMOND', color: 0x00ffcc, emissive: 0x00ffff }
         ];
 
-        // ==================== 3D ПРЕВЬЮ ====================
+        // 3D Превью
         function initPreview3D() {
             const canvas = document.getElementById('preview-canvas');
             if (!canvas) return;
@@ -270,31 +257,32 @@
             previewScene.add(previewMesh);
         }
 
-        // ==================== ФУНКЦИИ ====================
-        function login() {
-            const user = document.getElementById('login-username').value.trim();
-            const pass = document.getElementById('login-password').value;
-            if (user === 'admin' && pass === 'gta123') {
-                document.getElementById('login-screen').classList.add('hidden');
-                document.getElementById('main-app').classList.remove('hidden');
-                loadDashboard();
-                setTimeout(initPreview3D, 100);
-            } else {
-                alert('Неверный логин или пароль!\nadmin / gta123');
-            }
-        }
-
-        function logout() {
-            if (confirm('Выйти?')) location.reload();
-        }
-
+        // Управление меню
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
         }
 
+        function login() {
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value;
+
+            if (username === 'admin' && password === 'gta123') {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('main-app').classList.remove('hidden');
+                loadDashboard();
+                setTimeout(initPreview3D, 200);
+            } else {
+                alert('Неверный логин или пароль!\n\nadmin / gta123');
+            }
+        }
+
+        function logout() {
+            if (confirm('Выйти из аккаунта?')) location.reload();
+        }
+
         function showSection(section) {
-            document.querySelectorAll('#main-app > div').forEach(d => d.classList.add('hidden'));
+            document.querySelectorAll('#main-app > div').forEach(div => div.classList.add('hidden'));
             document.getElementById('section-' + section).classList.remove('hidden');
 
             if (section === 'create') {
@@ -302,13 +290,12 @@
                 renderItemsList();
                 updatePreview3D();
             }
-            if (section === 'open') renderOpenCases();
-            if (section === 'history') renderHistory();
+            if (section === 'dashboard') loadDashboard();
         }
 
         function selectCaseType(i) {
             currentCaseType = i;
-            document.querySelectorAll('.type-btn').forEach(b => b.style.opacity = 0.4);
+            document.querySelectorAll('.type-btn').forEach(btn => btn.style.opacity = 0.4);
             document.getElementById('type-' + i).style.opacity = 1;
             updatePreview3D();
         }
@@ -316,25 +303,32 @@
         function addItem() {
             const name = document.getElementById('item-name').value.trim();
             const percent = parseFloat(document.getElementById('item-percent').value);
-            if (!name || !percent) return alert('Заполни поля!');
-            currentItems.push({name, percent});
+            if (!name || !percent || percent <= 0) return alert('Заполни название и процент!');
+            
+            currentItems.push({ name, percent });
             renderItemsList();
             document.getElementById('item-name').value = '';
             document.getElementById('item-percent').value = '';
         }
 
         function renderItemsList() {
-            const cont = document.getElementById('items-list');
-            cont.innerHTML = '';
+            const container = document.getElementById('items-list');
+            container.innerHTML = '';
             let sum = 0;
+
             currentItems.forEach((item, i) => {
                 sum += item.percent;
                 const div = document.createElement('div');
-                div.className = 'flex justify-between bg-[#111827] p-4 rounded-2xl';
-                div.innerHTML = `${item.name} <span class="text-[#00ff9d]">${item.percent}%</span> <button onclick="removeItem(${i})" class="text-red-500">✕</button>`;
-                cont.appendChild(div);
+                div.className = 'flex items-center justify-between bg-[#111827] rounded-2xl px-6 py-4';
+                div.innerHTML = `
+                    <span>${item.name}</span>
+                    <span class="text-[#00ff9d] font-bold">${item.percent}%</span>
+                    <button onclick="removeItem(${i})" class="text-red-500 ml-4">✕</button>
+                `;
+                container.appendChild(div);
             });
-            document.getElementById('percent-sum').innerHTML = `Сумма: <span class="text-[#00ff9d]">${sum}</span>%`;
+
+            document.getElementById('percent-sum').innerHTML = `Сумма процентов: <span class="text-[#00ff9d]">${sum}</span>%`;
         }
 
         function removeItem(i) {
@@ -346,16 +340,18 @@
             const name = document.getElementById('case-name').value.trim();
             if (!name) return alert('Назови кейс!');
             if (currentItems.length < 2) return alert('Добавь минимум 2 предмета!');
-            if (currentItems.reduce((a,b)=>a+b.percent,0) !== 100) return alert('Сумма процентов должна быть 100%');
+            const sum = currentItems.reduce((a, b) => a + b.percent, 0);
+            if (sum !== 100) return alert('Сумма процентов должна быть 100%!');
 
             cases.unshift({
                 id: Date.now(),
-                name,
+                name: name,
                 type: currentCaseType,
                 items: [...currentItems]
             });
+
             localStorage.setItem('cases', JSON.stringify(cases));
-            alert('Кейс сохранён!');
+            alert('✅ Кейс успешно сохранён!');
             showSection('dashboard');
             loadDashboard();
         }
@@ -370,10 +366,10 @@
             cases.forEach((c, index) => {
                 const type = caseTypes[c.type];
                 const card = document.createElement('div');
-                card.className = 'bg-black/70 border border-[#00ff9d]/30 rounded-3xl p-6 relative';
+                card.className = 'bg-black/70 border border-[#00ff9d]/30 rounded-3xl p-6 relative hover:scale-105 transition-all';
                 card.innerHTML = `
                     <button onclick="deleteCase(${index}); event.stopImmediatePropagation()" 
-                            class="absolute top-3 right-3 text-red-500 text-xl">✕</button>
+                            class="absolute top-3 right-3 bg-red-600 hover:bg-red-700 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm">✕</button>
                     <div class="flex justify-center mb-4">
                         <div style="background:#${type.color.toString(16)}" class="w-20 h-14 rounded-2xl flex items-center justify-center text-4xl rotate-12">🎁</div>
                     </div>
@@ -382,23 +378,32 @@
                 `;
                 grid.appendChild(card);
             });
+
+            if (cases.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-400">Пока нет кейсов.<br>Создай первый!</div>`;
+            }
         }
 
         function deleteCase(index) {
-            if (confirm('Удалить этот кейс?')) {
+            if (confirm('Удалить этот кейс навсегда?')) {
                 cases.splice(index, 1);
                 localStorage.setItem('cases', JSON.stringify(cases));
                 loadDashboard();
             }
         }
 
-        // Заглушки для остальных функций (open, history и т.д.)
-        function renderOpenCases() { alert('Раздел "Открыть кейс" в разработке'); }
-        function renderHistory() { alert('Раздел "История" в разработке'); }
-        function startOpening() { alert('Выберите кейс для открытия'); }
+        // Заглушки для остальных разделов
+        function renderOpenCases() { alert('Раздел "Открыть кейс" скоро будет доступен'); }
+        function renderHistory() { alert('Раздел "История" скоро будет доступен'); }
 
+        // Закрытие модального окна
+        function closeOpeningModal() {
+            document.getElementById('opening-modal').classList.add('hidden');
+        }
+
+        // Инициализация
         window.onload = () => {
-            console.log('%c✅ CASE загружен', 'color:#00ff9d');
+            console.log('%c✅ CASE загружен успешно', 'color:#00ff9d; font-size:16px');
         };
     </script>
 </body>
